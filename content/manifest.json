@@ -43,6 +43,21 @@
         {"id":"hn-laryngeal-diseases","title":"喉部疾病","path":"03_头颈部/09_喉部疾病.md","diseases":[{"title":"喉癌","anchor":"laryngeal-carcinoma"},{"title":"喉外伤与异物","anchor":"laryngeal-trauma-foreign-body"}]},
         {"id":"hn-neck-thyroid","title":"颈部与甲状腺疾病","path":"03_头颈部/10_颈部与甲状腺疾病.md","diseases":[{"title":"颈部先天性囊肿","anchor":"congenital-neck-cysts"},{"title":"淋巴结转移与淋巴瘤","anchor":"neck-node-metastasis-lymphoma"},{"title":"颈动脉体瘤与神经鞘瘤","anchor":"carotid-body-tumor-schwannoma"},{"title":"Graves病与桥本甲状腺炎","anchor":"graves-hashimoto"},{"title":"甲状腺肿瘤","anchor":"thyroid-tumors"}]}
       ]
+    },
+    {
+      "id": "chapter-4",
+      "number": 4,
+      "title": "呼吸系统",
+      "index": "04_呼吸系统/README.md",
+      "pages": [
+        {"id":"respiratory-pneumonia-abscess","title":"肺炎与肺脓肿","path":"04_呼吸系统/01_肺炎与肺脓肿.md","diseases":[{"title":"大叶性肺炎","anchor":"lobar-pneumonia"},{"title":"小叶性肺炎","anchor":"bronchopneumonia"},{"title":"肺脓肿","anchor":"lung-abscess"}]},
+        {"id":"respiratory-pulmonary-tuberculosis","title":"肺结核","path":"04_呼吸系统/02_肺结核.md","diseases":[{"title":"原发性肺结核","anchor":"primary-pulmonary-tuberculosis"},{"title":"血行播散型肺结核","anchor":"hematogenous-disseminated-tuberculosis"},{"title":"继发性肺结核","anchor":"secondary-pulmonary-tuberculosis"},{"title":"结核性胸膜炎","anchor":"tuberculous-pleuritis"}]},
+        {"id":"respiratory-airway-obstruction-bronchiectasis","title":"气道阻塞与支气管扩张","path":"04_呼吸系统/03_气道阻塞与支气管扩张.md","diseases":[{"title":"阻塞性肺气肿","anchor":"obstructive-emphysema"},{"title":"阻塞性肺不张","anchor":"obstructive-atelectasis"},{"title":"阻塞性肺炎","anchor":"obstructive-pneumonia"},{"title":"支气管扩张","anchor":"bronchiectasis"}]},
+        {"id":"respiratory-lung-cancer","title":"肺癌","path":"04_呼吸系统/04_肺癌.md","diseases":[{"title":"中央型肺癌","anchor":"central-lung-cancer"},{"title":"周围型肺癌","anchor":"peripheral-lung-cancer"}]},
+        {"id":"respiratory-pulmonary-nodule-differential","title":"肺结节良恶性鉴别","path":"04_呼吸系统/05_肺结节良恶性鉴别.md","diseases":[{"title":"孤立性肺结节","anchor":"solitary-pulmonary-nodule"},{"title":"良性肺结节","anchor":"benign-pulmonary-nodule"},{"title":"恶性肺结节","anchor":"malignant-pulmonary-nodule"}]},
+        {"id":"respiratory-pleural-disease","title":"胸膜疾病","path":"04_呼吸系统/06_胸膜疾病.md","diseases":[{"title":"胸腔积液","anchor":"pleural-effusion"},{"title":"气胸","anchor":"pneumothorax"},{"title":"液气胸","anchor":"hydropneumothorax"}]},
+        {"id":"respiratory-mediastinal-tumors","title":"纵隔肿瘤","path":"04_呼吸系统/07_纵隔肿瘤.md","diseases":[{"title":"前纵隔常见肿瘤","anchor":"anterior-mediastinal-tumors"},{"title":"中纵隔常见病变","anchor":"middle-mediastinal-tumors"},{"title":"后纵隔神经源性肿瘤","anchor":"posterior-mediastinal-tumors"}]}
+      ]
     }
   ]
 }
