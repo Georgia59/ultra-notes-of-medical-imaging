@@ -1,0 +1,53 @@
+:root {
+  color-scheme: light;
+
+  --font-sans: Inter, "SF Pro Display", "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-serif: "Source Han Serif SC", "Noto Serif CJK SC", "Songti SC", serif;
+  --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+
+  --color-bg: #f4f7f6;
+  --color-surface: #ffffff;
+  --color-surface-soft: #eef3f1;
+  --color-surface-strong: #e3ebe8;
+  --color-text: #17201d;
+  --color-text-soft: #68736f;
+  --color-border: #dbe4e1;
+  --color-primary: #0e725d;
+  --color-primary-strong: #075646;
+  --color-primary-soft: #dcefe9;
+  --color-accent: #c56b35;
+  --color-table-head: #e8f2ef;
+  --color-code: #edf2f0;
+  --color-shadow: rgba(24, 55, 47, 0.1);
+  --color-overlay: rgba(8, 22, 18, 0.38);
+
+  --topbar-height: 68px;
+  --sidebar-width: 292px;
+  --content-width: 920px;
+  --outline-width: 210px;
+
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 22px;
+  --shadow-sm: 0 8px 24px var(--color-shadow);
+  --transition: 180ms ease;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --color-bg: #101513;
+  --color-surface: #171d1b;
+  --color-surface-soft: #1d2724;
+  --color-surface-strong: #26322e;
+  --color-text: #e9efed;
+  --color-text-soft: #9eaaa6;
+  --color-border: #2b3733;
+  --color-primary: #62c9ae;
+  --color-primary-strong: #8addc7;
+  --color-primary-soft: #193a31;
+  --color-accent: #e69a68;
+  --color-table-head: #20322d;
+  --color-code: #202825;
+  --color-shadow: rgba(0, 0, 0, 0.28);
+  --color-overlay: rgba(0, 0, 0, 0.62);
+}

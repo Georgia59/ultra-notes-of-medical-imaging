@@ -1,0 +1,48 @@
+{
+  "version": 1,
+  "title": "医学影像学底层逻辑笔记",
+  "source": {
+    "textbook": "《医学影像学》第9版，人民卫生出版社，2024",
+    "syllabus": "医学影像诊断学A课程学习大纲",
+    "slides": "medical-imaging/slides"
+  },
+  "chapters": [
+    {
+      "id": "chapter-2",
+      "number": 2,
+      "title": "中枢神经系统",
+      "index": "02_中枢神经系统/README.md",
+      "pages": [
+        {"id":"cns-diffuse-glioma","title":"弥漫性胶质瘤","path":"02_中枢神经系统/01_弥漫性胶质瘤.md","diseases":["弥漫性胶质瘤","星形细胞瘤","少突胶质瘤","胶质母细胞瘤"]},
+        {"id":"cns-meningioma","title":"脑膜瘤","path":"02_中枢神经系统/02_脑膜瘤.md","diseases":["脑膜瘤"]},
+        {"id":"cns-sellar-tumors","title":"鞍区肿瘤","path":"02_中枢神经系统/03_鞍区肿瘤_垂体腺瘤与颅咽管瘤.md","diseases":[{"title":"垂体腺瘤","anchor":"pituitary-adenoma"},{"title":"颅咽管瘤","anchor":"craniopharyngioma"}]},
+        {"id":"cns-vestibular-schwannoma","title":"听神经瘤","path":"02_中枢神经系统/04_听神经瘤.md","diseases":["听神经瘤"]},
+        {"id":"cns-brain-metastases","title":"脑转移瘤","path":"02_中枢神经系统/05_脑转移瘤.md","diseases":["脑转移瘤"]},
+        {"id":"cns-craniocerebral-trauma","title":"颅脑外伤","path":"02_中枢神经系统/06_颅脑外伤.md","diseases":["脑挫裂伤","硬膜外血肿","硬膜下血肿","外伤性蛛网膜下腔出血","弥漫性轴索损伤"]},
+        {"id":"cns-stroke-infarction-hemorrhage","title":"脑梗死与脑出血","path":"02_中枢神经系统/07_脑梗死与脑出血.md","diseases":[{"title":"脑梗死","anchor":"cerebral-infarction"},{"title":"脑出血","anchor":"intracerebral-hemorrhage"}]},
+        {"id":"cns-aneurysm-avm","title":"颅内动脉瘤与脑动静脉畸形","path":"02_中枢神经系统/08_颅内动脉瘤与脑动静脉畸形.md","diseases":[{"title":"颅内动脉瘤","anchor":"intracranial-aneurysm"},{"title":"脑动静脉畸形","anchor":"brain-avm"}]},
+        {"id":"cns-infections","title":"颅内感染性疾病","path":"02_中枢神经系统/09_颅内感染性疾病.md","diseases":[{"title":"脑脓肿","anchor":"brain-abscess"},{"title":"结核性脑膜脑炎","anchor":"tuberculous-meningoencephalitis"},{"title":"脑囊虫病","anchor":"cerebral-cysticercosis"},{"title":"病毒性脑炎","anchor":"viral-encephalitis"}]},
+        {"id":"cns-ms-congenital","title":"多发性硬化与先天畸形","path":"02_中枢神经系统/10_多发性硬化与先天畸形.md","diseases":[{"title":"多发性硬化","anchor":"multiple-sclerosis"},{"title":"胼胝体发育不全","anchor":"corpus-callosum-agenesis"},{"title":"Chiari畸形","anchor":"chiari-malformation"}]},
+        {"id":"cns-intraspinal-tumors","title":"椎管内肿瘤","path":"02_中枢神经系统/11_椎管内肿瘤.md","diseases":["室管膜瘤","脊髓星形细胞瘤","神经鞘瘤","脊膜瘤"]}
+      ]
+    },
+    {
+      "id": "chapter-3",
+      "number": 3,
+      "title": "头颈部",
+      "index": "03_头颈部/README.md",
+      "pages": [
+        {"id":"hn-orbit-inflammatory-cavernous","title":"眼眶炎性假瘤与海绵状血管瘤","path":"03_头颈部/01_眼眶炎性假瘤与海绵状血管瘤.md","diseases":[{"title":"眼眶炎性假瘤","anchor":"orbital-inflammatory-pseudotumor"},{"title":"眼眶海绵状血管瘤","anchor":"orbital-cavernous-hemangioma"}]},
+        {"id":"hn-orbital-tumors","title":"眼部肿瘤","path":"03_头颈部/02_眼部肿瘤.md","diseases":[{"title":"泪腺多形性腺瘤","anchor":"lacrimal-pleomorphic-adenoma"},{"title":"视网膜母细胞瘤","anchor":"retinoblastoma"},{"title":"眼眶淋巴瘤","anchor":"orbital-lymphoma"}]},
+        {"id":"hn-orbital-trauma-ccf","title":"眼眶外伤与颈动脉海绵窦瘘","path":"03_头颈部/03_眼眶外伤与颈动脉海绵窦瘘.md","diseases":[{"title":"眼眶骨折及异物","anchor":"orbital-fracture-foreign-body"},{"title":"颈动脉海绵窦瘘","anchor":"carotid-cavernous-fistula"}]},
+        {"id":"hn-sinonasal-inflammatory","title":"鼻窦炎性疾病","path":"03_头颈部/04_鼻窦炎性疾病.md","diseases":["鼻窦炎","真菌性鼻窦炎","鼻息肉","黏液囊肿"]},
+        {"id":"hn-sinonasal-tumors-trauma","title":"鼻与鼻窦肿瘤及骨折","path":"03_头颈部/05_鼻与鼻窦肿瘤及骨折.md","diseases":[{"title":"内翻性乳头状瘤","anchor":"inverted-papilloma"},{"title":"鼻腔鼻窦鳞状细胞癌","anchor":"sinonasal-squamous-cell-carcinoma"},{"title":"鼻及鼻窦骨折","anchor":"nasal-sinus-fracture"}]},
+        {"id":"hn-ear-diseases","title":"耳部疾病","path":"03_头颈部/06_耳部疾病.md","diseases":[{"title":"中耳乳突炎","anchor":"otomastoiditis"},{"title":"胆脂瘤","anchor":"cholesteatoma"},{"title":"Mondini畸形","anchor":"mondini-malformation"},{"title":"颞骨骨折","anchor":"temporal-bone-fracture"}]},
+        {"id":"hn-oral-salivary","title":"口腔颌面与涎腺疾病","path":"03_头颈部/07_口腔颌面与涎腺疾病.md","diseases":[{"title":"牙源性囊肿","anchor":"odontogenic-cyst"},{"title":"成釉细胞瘤","anchor":"ameloblastoma"},{"title":"骨化性纤维瘤","anchor":"ossifying-fibroma"},{"title":"腮腺肿瘤","anchor":"parotid-tumors"}]},
+        {"id":"hn-pharyngeal-diseases","title":"咽部疾病","path":"03_头颈部/08_咽部疾病.md","diseases":[{"title":"鼻咽癌","anchor":"nasopharyngeal-carcinoma"},{"title":"鼻咽纤维血管瘤","anchor":"nasopharyngeal-angiofibroma"},{"title":"咽部感染","anchor":"pharyngeal-infection"},{"title":"腺样体肥大、先天囊肿与异物","anchor":"adenoid-cyst-foreign-body"}]},
+        {"id":"hn-laryngeal-diseases","title":"喉部疾病","path":"03_头颈部/09_喉部疾病.md","diseases":[{"title":"喉癌","anchor":"laryngeal-carcinoma"},{"title":"喉外伤与异物","anchor":"laryngeal-trauma-foreign-body"}]},
+        {"id":"hn-neck-thyroid","title":"颈部与甲状腺疾病","path":"03_头颈部/10_颈部与甲状腺疾病.md","diseases":[{"title":"颈部先天性囊肿","anchor":"congenital-neck-cysts"},{"title":"淋巴结转移与淋巴瘤","anchor":"neck-node-metastasis-lymphoma"},{"title":"颈动脉体瘤与神经鞘瘤","anchor":"carotid-body-tumor-schwannoma"},{"title":"Graves病与桥本甲状腺炎","anchor":"graves-hashimoto"},{"title":"甲状腺肿瘤","anchor":"thyroid-tumors"}]}
+      ]
+    }
+  ]
+}

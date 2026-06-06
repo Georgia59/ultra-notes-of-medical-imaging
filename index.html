@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="医学影像学底层逻辑笔记：按章节和疾病快速检索。" />
+    <title>Ultra Notes · 医学影像学</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231d4ed8'/%3E%3Cpath d='M19 16h20a8 8 0 0 1 8 8v24H25a8 8 0 0 1-8-8V18a2 2 0 0 1 2-2Z' fill='white'/%3E%3Cpath d='M25 16v32M32 25h9M32 32h9M32 39h7' stroke='%231d4ed8' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E"
+    />
+    <link rel="stylesheet" href="assets/theme.css" />
+    <link rel="stylesheet" href="assets/styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <button class="icon-button mobile-only" id="menuButton" aria-label="打开目录">
+          <span></span><span></span><span></span>
+        </button>
+        <a class="brand" href="./">
+          <span class="brand-mark">U</span>
+          <span>
+            <strong>Ultra Notes</strong>
+            <small>医学影像学</small>
+          </span>
+        </a>
+        <div class="topbar-actions">
+          <label class="search-box" for="globalSearch">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="m21 21-4.35-4.35m2.35-5.65a8 8 0 1 1-16 0 8 8 0 0 1 16 0Z" />
+            </svg>
+            <input id="globalSearch" type="search" placeholder="搜索疾病或章节" autocomplete="off" />
+            <kbd>/</kbd>
+          </label>
+          <button class="theme-button" id="themeButton" type="button" aria-label="切换明暗主题">
+            <span class="sun">☀</span><span class="moon">☾</span>
+          </button>
+        </div>
+      </header>
+
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar-head">
+          <span>学习目录</span>
+          <button class="close-button mobile-only" id="closeMenuButton" aria-label="关闭目录">×</button>
+        </div>
+        <nav id="chapterNavigation" aria-label="章节与疾病导航"></nav>
+        <footer class="sidebar-footer">
+          <span class="status-dot"></span>
+          <span>基于第 9 版教材与课程大纲</span>
+        </footer>
+      </aside>
+
+      <main class="main">
+        <section class="mobile-picker mobile-only">
+          <label for="diseaseSelect">选择疾病</label>
+          <select id="diseaseSelect"></select>
+        </section>
+
+        <section class="reader-header">
+          <div>
+            <p class="eyebrow" id="pageCategory">正在载入</p>
+            <h1 id="pageTitle">医学影像学笔记</h1>
+            <p class="page-description" id="pageDescription">从左侧选择章节和疾病。</p>
+          </div>
+          <div class="reader-tools">
+            <button class="text-button" id="outlineButton" type="button">本页目录</button>
+            <button class="text-button" id="focusButton" type="button">专注阅读</button>
+          </div>
+        </section>
+
+        <div class="reader-layout">
+          <article class="markdown-body" id="article">
+            <div class="loading-card">
+              <div class="loading-line wide"></div>
+              <div class="loading-line"></div>
+              <div class="loading-line short"></div>
+            </div>
+          </article>
+          <aside class="page-outline" id="pageOutline" aria-label="本页目录">
+            <strong>本页目录</strong>
+            <nav id="outlineNavigation"></nav>
+          </aside>
+        </div>
+      </main>
+    </div>
+
+    <div class="search-panel" id="searchPanel" hidden>
+      <div class="search-panel-head">
+        <span>搜索结果</span>
+        <button id="closeSearchButton" aria-label="关闭搜索">×</button>
+      </div>
+      <div id="searchResults"></div>
+    </div>
+    <div class="scrim" id="scrim" hidden></div>
+
+    <script src="assets/vendor/marked.min.js"></script>
+    <script src="assets/app.js" defer></script>
+  </body>
+</html>
