@@ -138,9 +138,28 @@ function renderOutline() {
   elements.outlineNavigation.innerHTML = headings
     .map(
       (heading) =>
-        `<a class="outline-link level-${heading.tagName.slice(1)}" href="#${heading.id}">${heading.textContent}</a>`
+        `<a class="outline-link level-${heading.tagName.slice(1)}" data-anchor="${heading.id}" href="${routeFor(
+          state.activePage,
+          heading.id
+        )}">${heading.textContent}</a>`
     )
     .join("");
+}
+
+function updateActiveOutline(anchor) {
+  elements.outlineNavigation.querySelectorAll(".outline-link").forEach((link) => {
+    link.classList.toggle("active", link.dataset.anchor === anchor);
+  });
+}
+
+function scrollToElementImmediately(target) {
+  const root = document.documentElement;
+  const previousScrollBehavior = root.style.scrollBehavior;
+  root.style.scrollBehavior = "auto";
+  target.scrollIntoView({ block: "start" });
+  requestAnimationFrame(() => {
+    root.style.scrollBehavior = previousScrollBehavior;
+  });
 }
 
 function updateActiveNavigation() {
@@ -256,6 +275,20 @@ function setupInteractions() {
   elements.searchResults.addEventListener("click", () => {
     elements.globalSearch.value = "";
     closeSearch();
+  });
+  elements.outlineNavigation.addEventListener("click", (event) => {
+    const link = event.target.closest(".outline-link");
+    if (!link) return;
+    event.preventDefault();
+
+    const anchor = link.dataset.anchor;
+    const target = document.getElementById(anchor);
+    if (!target) return;
+
+    state.activeAnchor = anchor;
+    updateActiveOutline(anchor);
+    history.replaceState(null, "", routeFor(state.activePage, anchor));
+    scrollToElementImmediately(target);
   });
   document.querySelector("#closeSearchButton").addEventListener("click", closeSearch);
   document.querySelector("#menuButton").addEventListener("click", openMobileMenu);
