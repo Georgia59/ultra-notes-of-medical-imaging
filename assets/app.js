@@ -4,7 +4,11 @@ const state = {
   activePage: null,
   activeAnchor: "",
   searchIndex: [],
+  notes: {},
+  noteSaveTimer: null,
 };
+
+const NOTES_STORAGE_KEY = "ultra-notes-user-notes-v1";
 
 const elements = {
   article: document.querySelector("#article"),
@@ -19,6 +23,12 @@ const elements = {
   searchResults: document.querySelector("#searchResults"),
   scrim: document.querySelector("#scrim"),
   sidebar: document.querySelector("#sidebar"),
+  notesPanel: document.querySelector("#notesPanel"),
+  notesEditor: document.querySelector("#notesEditor"),
+  notesPageTitle: document.querySelector("#notesPageTitle"),
+  notesSaveStatus: document.querySelector("#notesSaveStatus"),
+  notesCharacterCount: document.querySelector("#notesCharacterCount"),
+  notesScrim: document.querySelector("#notesScrim"),
 };
 
 marked.setOptions({ gfm: true, breaks: false });
@@ -162,6 +172,143 @@ function scrollToElementImmediately(target) {
   });
 }
 
+function currentNote() {
+  return state.activePage ? state.notes[state.activePage.id] : null;
+}
+
+function loadNotesFromStorage() {
+  try {
+    state.notes = JSON.parse(localStorage.getItem(NOTES_STORAGE_KEY) || "{}");
+  } catch {
+    state.notes = {};
+  }
+}
+
+function formatNoteTime(timestamp) {
+  if (!timestamp) return "尚未记录";
+  return `已保存 ${new Intl.DateTimeFormat("zh-CN", {
+    month: "numeric",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  }).format(new Date(timestamp))}`;
+}
+
+function updateNoteIndicators() {
+  const hasNote = Boolean(currentNote()?.text.trim());
+  document.querySelectorAll(".notes-button, .notes-fab").forEach((button) => {
+    button.classList.toggle("has-note", hasNote);
+  });
+}
+
+function renderCurrentNote() {
+  if (!state.activePage) return;
+  const note = currentNote();
+  elements.notesPageTitle.textContent = state.activePage.title;
+  elements.notesEditor.value = note?.text || "";
+  elements.notesCharacterCount.textContent = `${elements.notesEditor.value.length} 字`;
+  elements.notesSaveStatus.textContent = formatNoteTime(note?.updatedAt);
+  updateNoteIndicators();
+}
+
+function persistCurrentNote() {
+  if (!state.activePage) return;
+  clearTimeout(state.noteSaveTimer);
+  state.noteSaveTimer = null;
+
+  const text = elements.notesEditor.value;
+  if (text.trim()) {
+    state.notes[state.activePage.id] = {
+      text,
+      updatedAt: new Date().toISOString(),
+      pageTitle: state.activePage.title,
+      chapterTitle: `第${state.activePage.chapter.number}章 ${state.activePage.chapter.title}`,
+    };
+  } else {
+    delete state.notes[state.activePage.id];
+  }
+
+  try {
+    localStorage.setItem(NOTES_STORAGE_KEY, JSON.stringify(state.notes));
+    elements.notesSaveStatus.textContent = text.trim()
+      ? formatNoteTime(state.notes[state.activePage.id].updatedAt)
+      : "尚未记录";
+  } catch {
+    elements.notesSaveStatus.textContent = "保存失败：浏览器存储不可用";
+  }
+  updateNoteIndicators();
+}
+
+function scheduleNoteSave() {
+  clearTimeout(state.noteSaveTimer);
+  elements.notesSaveStatus.textContent = "正在保存…";
+  elements.notesCharacterCount.textContent = `${elements.notesEditor.value.length} 字`;
+  state.noteSaveTimer = setTimeout(persistCurrentNote, 350);
+}
+
+function openNotes() {
+  renderCurrentNote();
+  elements.notesPanel.classList.add("open");
+  elements.notesPanel.setAttribute("aria-hidden", "false");
+  elements.notesScrim.hidden = false;
+  setTimeout(() => elements.notesEditor.focus(), 180);
+}
+
+function closeNotes() {
+  if (!elements.notesPanel.classList.contains("open")) return;
+  persistCurrentNote();
+  elements.notesPanel.classList.remove("open");
+  elements.notesPanel.setAttribute("aria-hidden", "true");
+  elements.notesScrim.hidden = true;
+}
+
+function safeFilename(value) {
+  return value.replace(/[\\/:*?"<>|]/g, "-");
+}
+
+function downloadText(filename, text, type = "text/plain;charset=utf-8") {
+  const url = URL.createObjectURL(new Blob([text], { type }));
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = filename;
+  link.click();
+  URL.revokeObjectURL(url);
+}
+
+function exportCurrentNote() {
+  persistCurrentNote();
+  const note = currentNote();
+  if (!note?.text.trim()) return;
+  downloadText(
+    `${safeFilename(state.activePage.title)}-个人笔记.md`,
+    `# ${state.activePage.title}个人笔记\n\n${note.text}\n`
+  );
+}
+
+function exportAllNotes() {
+  persistCurrentNote();
+  const entries = Object.values(state.notes).filter((note) => note.text.trim());
+  if (!entries.length) return;
+  const backup = {
+    version: 1,
+    exportedAt: new Date().toISOString(),
+    notes: state.notes,
+  };
+  downloadText(
+    `ultra-notes-backup-${new Date().toISOString().slice(0, 10)}.json`,
+    JSON.stringify(backup, null, 2),
+    "application/json;charset=utf-8"
+  );
+}
+
+function clearCurrentNote() {
+  if (!elements.notesEditor.value.trim()) return;
+  if (!window.confirm(`确定清空“${state.activePage.title}”的个人笔记吗？`)) return;
+  elements.notesEditor.value = "";
+  persistCurrentNote();
+  elements.notesCharacterCount.textContent = "0 字";
+}
+
 function updateActiveNavigation() {
   document.querySelectorAll(".page-link").forEach((link) => {
     link.classList.toggle("active", link.dataset.pageId === state.activePage?.id);
@@ -182,6 +329,7 @@ function updateActiveNavigation() {
 
 async function loadPage(page, anchor = "") {
   if (!page) return;
+  if (state.activePage) persistCurrentNote();
   state.activePage = page;
   state.activeAnchor = anchor;
   elements.article.setAttribute("aria-busy", "true");
@@ -198,6 +346,7 @@ async function loadPage(page, anchor = "") {
   elements.article.setAttribute("aria-busy", "false");
   renderOutline();
   updateActiveNavigation();
+  renderCurrentNote();
   document.title = `${page.title} · Ultra Notes`;
 
   requestAnimationFrame(() => {
@@ -291,6 +440,16 @@ function setupInteractions() {
     scrollToElementImmediately(target);
   });
   document.querySelector("#closeSearchButton").addEventListener("click", closeSearch);
+  document.querySelector("#notesButton").addEventListener("click", openNotes);
+  document.querySelector("#notesFab").addEventListener("click", openNotes);
+  document.querySelector("#closeNotesButton").addEventListener("click", closeNotes);
+  elements.notesScrim.addEventListener("click", closeNotes);
+  elements.notesEditor.addEventListener("input", scheduleNoteSave);
+  document
+    .querySelector("#exportCurrentNoteButton")
+    .addEventListener("click", exportCurrentNote);
+  document.querySelector("#exportAllNotesButton").addEventListener("click", exportAllNotes);
+  document.querySelector("#clearNoteButton").addEventListener("click", clearCurrentNote);
   document.querySelector("#menuButton").addEventListener("click", openMobileMenu);
   document.querySelector("#closeMenuButton").addEventListener("click", closeMobileMenu);
   elements.scrim.addEventListener("click", () => {
@@ -308,8 +467,10 @@ function setupInteractions() {
     if (event.key === "Escape") {
       closeSearch();
       closeMobileMenu();
+      closeNotes();
     }
   });
+  window.addEventListener("beforeunload", persistCurrentNote);
 
   const savedTheme = localStorage.getItem("ultra-notes-theme");
   if (savedTheme) document.documentElement.dataset.theme = savedTheme;
@@ -335,6 +496,7 @@ async function handleRoute() {
 
 async function initialize() {
   try {
+    loadNotesFromStorage();
     const response = await fetch("content/manifest.json");
     state.manifest = await response.json();
     state.pages = flattenPages(state.manifest);

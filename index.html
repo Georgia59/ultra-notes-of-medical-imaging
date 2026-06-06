@@ -64,6 +64,10 @@
             <p class="page-description" id="pageDescription">从左侧选择章节和疾病。</p>
           </div>
           <div class="reader-tools">
+            <button class="text-button notes-button" id="notesButton" type="button">
+              我的笔记
+              <span class="note-indicator" aria-hidden="true"></span>
+            </button>
             <button class="text-button" id="outlineButton" type="button">本页目录</button>
             <button class="text-button" id="focusButton" type="button">专注阅读</button>
           </div>
@@ -84,6 +88,39 @@
         </div>
       </main>
     </div>
+
+    <button class="notes-fab mobile-only" id="notesFab" type="button">
+      笔记
+      <span class="note-indicator" aria-hidden="true"></span>
+    </button>
+
+    <aside class="notes-panel" id="notesPanel" aria-hidden="true" aria-label="我的笔记">
+      <header class="notes-panel-head">
+        <div>
+          <p>我的笔记</p>
+          <h2 id="notesPageTitle">当前疾病</h2>
+        </div>
+        <button class="close-button" id="closeNotesButton" type="button" aria-label="关闭笔记">×</button>
+      </header>
+      <div class="notes-local-notice">
+        仅保存在当前浏览器，不会上传或与其他用户共享。
+      </div>
+      <textarea
+        id="notesEditor"
+        placeholder="记录易错点、鉴别要点、记忆口诀……"
+        aria-label="当前疾病笔记"
+      ></textarea>
+      <div class="notes-meta">
+        <span id="notesSaveStatus">尚未记录</span>
+        <span id="notesCharacterCount">0 字</span>
+      </div>
+      <div class="notes-actions">
+        <button class="text-button" id="exportCurrentNoteButton" type="button">导出当前</button>
+        <button class="text-button" id="exportAllNotesButton" type="button">备份全部</button>
+        <button class="danger-button" id="clearNoteButton" type="button">清空</button>
+      </div>
+    </aside>
+    <div class="notes-scrim" id="notesScrim" hidden></div>
 
     <div class="search-panel" id="searchPanel" hidden>
       <div class="search-panel-head">
