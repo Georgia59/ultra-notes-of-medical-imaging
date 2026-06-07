@@ -58,6 +58,102 @@
         {"id":"respiratory-pleural-disease","title":"胸膜疾病","path":"04_呼吸系统/06_胸膜疾病.md","diseases":[{"title":"胸腔积液","anchor":"pleural-effusion"},{"title":"气胸","anchor":"pneumothorax"},{"title":"液气胸","anchor":"hydropneumothorax"}]},
         {"id":"respiratory-mediastinal-tumors","title":"纵隔肿瘤","path":"04_呼吸系统/07_纵隔肿瘤.md","diseases":[{"title":"前纵隔常见肿瘤","anchor":"anterior-mediastinal-tumors"},{"title":"中纵隔常见病变","anchor":"middle-mediastinal-tumors"},{"title":"后纵隔神经源性肿瘤","anchor":"posterior-mediastinal-tumors"}]}
       ]
+    },
+    {
+      "id": "chapter-5",
+      "number": 5,
+      "title": "循环系统",
+      "index": "05_循环系统/README.md",
+      "pages": [
+        {"id":"cardiovascular-congenital-heart-disease","title":"先天性心脏病","path":"05_循环系统/01_先天性心脏病.md","diseases":[{"title":"房间隔缺损","anchor":"atrial-septal-defect"},{"title":"法洛四联症","anchor":"tetralogy-of-fallot"}]},
+        {"id":"cardiovascular-coronary-atherosclerosis-myocardial-infarction","title":"冠状动脉粥样硬化与心肌梗死","path":"05_循环系统/02_冠状动脉粥样硬化与心肌梗死.md","diseases":[{"title":"冠状动脉粥样硬化性心脏病","anchor":"coronary-atherosclerotic-heart-disease"},{"title":"心肌梗死","anchor":"myocardial-infarction"}]},
+        {"id":"cardiovascular-dilated-cardiomyopathy","title":"扩张型心肌病","path":"05_循环系统/03_扩张型心肌病.md","diseases":[{"title":"扩张型心肌病","anchor":"dilated-cardiomyopathy"}]},
+        {"id":"cardiovascular-pericardial-disease","title":"心包疾病","path":"05_循环系统/04_心包疾病.md","diseases":[{"title":"心包积液","anchor":"pericardial-effusion"},{"title":"缩窄性心包炎","anchor":"constrictive-pericarditis"}]},
+        {"id":"cardiovascular-acute-aortic-syndrome-aneurysm","title":"主动脉急性综合征与主动脉瘤","path":"05_循环系统/05_主动脉急性综合征与主动脉瘤.md","diseases":[{"title":"主动脉夹层","anchor":"aortic-dissection"},{"title":"主动脉壁内血肿","anchor":"intramural-hematoma"},{"title":"主动脉瘤","anchor":"aortic-aneurysm"}]},
+        {"id":"cardiovascular-valvular-heart-disease","title":"心脏瓣膜病","path":"05_循环系统/06_心脏瓣膜病.md","diseases":[{"title":"风湿性心脏病与瓣膜病","anchor":"rheumatic-valvular-heart-disease"},{"title":"二尖瓣狭窄","anchor":"mitral-stenosis"},{"title":"二尖瓣关闭不全","anchor":"mitral-regurgitation"},{"title":"主动脉瓣狭窄","anchor":"aortic-stenosis"},{"title":"主动脉瓣关闭不全","anchor":"aortic-regurgitation"}]},
+        {"id":"cardiovascular-pulmonary-embolism","title":"肺动脉栓塞","path":"05_循环系统/07_肺动脉栓塞.md","diseases":[{"title":"肺动脉栓塞","anchor":"pulmonary-embolism"}]},
+        {"id":"cardiovascular-lower-extremity-atherosclerosis","title":"下肢动脉粥样硬化","path":"05_循环系统/08_下肢动脉粥样硬化.md","diseases":[{"title":"下肢动脉粥样硬化","anchor":"lower-extremity-arterial-atherosclerosis"}]}
+      ]
+    },
+    {
+      "id": "chapter-7",
+      "number": 7,
+      "title": "消化系统与腹膜腔",
+      "index": "07_消化系统与腹膜腔/README.md",
+      "pages": [
+        {"id":"digestive-esophageal-disease","title":"食管疾病","path":"07_消化系统与腹膜腔/01_食管疾病.md","diseases":[{"title":"食管癌","anchor":"esophageal-carcinoma"},{"title":"食管静脉曲张","anchor":"esophageal-varices"}]},
+        {"id":"digestive-gastric-duodenal-disease","title":"胃与十二指肠疾病","path":"07_消化系统与腹膜腔/02_胃与十二指肠疾病.md","diseases":[{"title":"胃溃疡","anchor":"gastric-ulcer"},{"title":"十二指肠溃疡","anchor":"duodenal-ulcer"},{"title":"胃癌","anchor":"gastric-carcinoma"},{"title":"胃肠道间质瘤","anchor":"gist"},{"title":"胃肠道淋巴瘤","anchor":"gi-lymphoma"}]},
+        {"id":"digestive-intestinal-tumor-inflammation","title":"肠道肿瘤与炎症","path":"07_消化系统与腹膜腔/03_肠道肿瘤与炎症.md","diseases":[{"title":"结直肠癌","anchor":"colorectal-carcinoma"},{"title":"克罗恩病","anchor":"crohn-disease"},{"title":"肠结核","anchor":"intestinal-tuberculosis"},{"title":"溃疡性结肠炎","anchor":"ulcerative-colitis"}]},
+        {"id":"digestive-hcc-cirrhosis","title":"肝细胞癌与肝硬化","path":"07_消化系统与腹膜腔/04_肝细胞癌与肝硬化.md","diseases":[{"title":"肝硬化","anchor":"cirrhosis"},{"title":"肝细胞癌","anchor":"hcc"},{"title":"脂肪肝","anchor":"fatty-liver"}]},
+        {"id":"digestive-liver-common-lesions","title":"肝脏常见占位","path":"07_消化系统与腹膜腔/05_肝脏常见占位.md","diseases":[{"title":"肝海绵状血管瘤","anchor":"hepatic-cavernous-hemangioma"},{"title":"肝转移瘤","anchor":"hepatic-metastases"},{"title":"肝囊肿","anchor":"hepatic-cyst"},{"title":"肝脓肿","anchor":"hepatic-abscess"}]},
+        {"id":"digestive-biliary-stones-congenital","title":"胆道结石与先天异常","path":"07_消化系统与腹膜腔/06_胆道结石与先天异常.md","diseases":[{"title":"胆石症与胆囊炎","anchor":"cholelithiasis-cholecystitis"},{"title":"先天性胆管扩张","anchor":"congenital-biliary-dilatation"}]},
+        {"id":"digestive-gallbladder-cholangiocarcinoma","title":"胆囊癌与胆管癌","path":"07_消化系统与腹膜腔/07_胆囊癌与胆管癌.md","diseases":[{"title":"胆囊癌","anchor":"gallbladder-carcinoma"},{"title":"胆管癌","anchor":"cholangiocarcinoma"}]},
+        {"id":"digestive-acute-pancreatitis","title":"急性胰腺炎","path":"07_消化系统与腹膜腔/08_急性胰腺炎.md","diseases":[{"title":"急性胰腺炎","anchor":"acute-pancreatitis"}]},
+        {"id":"digestive-pancreatic-cancer","title":"胰腺癌","path":"07_消化系统与腹膜腔/09_胰腺癌.md","diseases":[{"title":"胰腺癌","anchor":"pancreatic-carcinoma"},{"title":"胰腺神经内分泌肿瘤","anchor":"pnen"},{"title":"胰腺囊性肿瘤","anchor":"pancreatic-cystic-neoplasm"}]},
+        {"id":"digestive-splenic-disease","title":"脾脏疾病","path":"07_消化系统与腹膜腔/10_脾脏疾病.md","diseases":[{"title":"脾海绵状血管瘤","anchor":"splenic-hemangioma"},{"title":"脾淋巴瘤","anchor":"splenic-lymphoma"},{"title":"脾梗死","anchor":"splenic-infarction"},{"title":"脾脓肿","anchor":"splenic-abscess"},{"title":"脾外伤","anchor":"splenic-trauma"}]},
+        {"id":"digestive-acute-abdomen-trauma","title":"急腹症与腹部外伤","path":"07_消化系统与腹膜腔/11_急腹症与腹部外伤.md","diseases":[{"title":"肠梗阻","anchor":"intestinal-obstruction"},{"title":"消化道穿孔","anchor":"gastrointestinal-perforation"},{"title":"腹部外伤","anchor":"abdominal-trauma"}]}
+      ]
+    },
+    {
+      "id": "chapter-8",
+      "number": 8,
+      "title": "泌尿生殖系统与腹膜后间隙",
+      "index": "08_泌尿生殖系统与腹膜后间隙/README.md",
+      "pages": [
+        {"id":"urogenital-congenital-anomalies","title":"泌尿系统先天异常","path":"08_泌尿生殖系统与腹膜后间隙/01_泌尿系统先天异常.md","diseases":[{"title":"肾缺如","anchor":"renal-agenesis"},{"title":"马蹄肾","anchor":"horseshoe-kidney"},{"title":"肾盂输尿管重复畸形","anchor":"renal-duplication"},{"title":"异位肾","anchor":"ectopic-kidney"}]},
+        {"id":"urogenital-urinary-stones","title":"泌尿系结石","path":"08_泌尿生殖系统与腹膜后间隙/02_泌尿系结石.md","diseases":[{"title":"肾结石","anchor":"renal-calculus"},{"title":"输尿管结石","anchor":"ureteral-calculus"},{"title":"膀胱结石","anchor":"vesical-calculus"}]},
+        {"id":"urogenital-urinary-tb","title":"泌尿系统结核","path":"08_泌尿生殖系统与腹膜后间隙/03_泌尿系统结核.md","diseases":[{"title":"肾结核","anchor":"renal-tuberculosis"}]},
+        {"id":"urogenital-renal-tumors","title":"肾脏肿瘤","path":"08_泌尿生殖系统与腹膜后间隙/04_肾脏肿瘤.md","diseases":[{"title":"肾细胞癌","anchor":"renal-cell-carcinoma"},{"title":"肾盂癌","anchor":"renal-pelvis-carcinoma"},{"title":"肾血管平滑肌脂肪瘤","anchor":"renal-angiomyolipoma"}]},
+        {"id":"urogenital-bladder-cancer","title":"膀胱癌","path":"08_泌尿生殖系统与腹膜后间隙/05_膀胱癌.md","diseases":[{"title":"膀胱癌","anchor":"bladder-carcinoma"}]},
+        {"id":"urogenital-renal-cystic-disease","title":"肾囊性疾病","path":"08_泌尿生殖系统与腹膜后间隙/06_肾囊性疾病.md","diseases":[{"title":"单纯性肾囊肿","anchor":"simple-renal-cyst"},{"title":"多囊肾","anchor":"polycystic-kidney"}]},
+        {"id":"urogenital-adrenal-disease","title":"肾上腺疾病","path":"08_泌尿生殖系统与腹膜后间隙/07_肾上腺疾病.md","diseases":[{"title":"肾上腺皮质增生","anchor":"adrenal-hyperplasia"},{"title":"肾上腺皮质腺瘤","anchor":"adrenal-adenoma"},{"title":"肾上腺皮质腺癌","anchor":"adrenocortical-carcinoma"},{"title":"嗜铬细胞瘤","anchor":"pheochromocytoma"},{"title":"肾上腺转移瘤","anchor":"adrenal-metastasis"}]},
+        {"id":"urogenital-prostate-disease","title":"前列腺疾病","path":"08_泌尿生殖系统与腹膜后间隙/08_前列腺疾病.md","diseases":[{"title":"良性前列腺增生","anchor":"bph"},{"title":"前列腺癌","anchor":"prostate-carcinoma"}]},
+        {"id":"urogenital-female-malignant","title":"女性生殖系统恶性肿瘤","path":"08_泌尿生殖系统与腹膜后间隙/09_女性生殖系统恶性肿瘤.md","diseases":[{"title":"宫颈癌","anchor":"cervical-carcinoma"},{"title":"子宫内膜癌","anchor":"endometrial-carcinoma"},{"title":"卵巢癌","anchor":"ovarian-carcinoma"}]},
+        {"id":"urogenital-female-benign","title":"女性生殖系统良性疾病","path":"08_泌尿生殖系统与腹膜后间隙/10_女性生殖系统良性疾病.md","diseases":[{"title":"子宫肌瘤","anchor":"uterine-leiomyoma"},{"title":"子宫内膜异位症","anchor":"endometriosis"},{"title":"卵巢囊肿","anchor":"ovarian-cyst"},{"title":"卵巢囊腺瘤","anchor":"ovarian-cystadenoma"},{"title":"卵巢囊性畸胎瘤","anchor":"cystic-teratoma"}]},
+        {"id":"urogenital-retroperitoneal-disease","title":"腹膜后间隙疾病","path":"08_泌尿生殖系统与腹膜后间隙/11_腹膜后间隙疾病.md","diseases":[{"title":"原发腹膜后肿瘤","anchor":"retroperitoneal-tumor"},{"title":"腹膜后淋巴瘤","anchor":"retroperitoneal-lymphoma"},{"title":"腹膜后转移瘤","anchor":"retroperitoneal-metastasis"},{"title":"腹膜后纤维化","anchor":"retroperitoneal-fibrosis"}]}
+      ]
+    },
+    {
+      "id": "chapter-9",
+      "number": 9,
+      "title": "骨骼与肌肉系统",
+      "index": "09_骨骼与肌肉系统/README.md",
+      "pages": [
+        {"id":"msk-fracture-general","title":"骨折总论与长骨骨折","path":"09_骨骼与肌肉系统/01_骨折总论与长骨骨折.md","diseases":[{"title":"骨折总论","anchor":"fracture"},{"title":"Colles骨折","anchor":"colles-fracture"},{"title":"肱骨髁上骨折","anchor":"supracondylar-fracture"},{"title":"股骨颈骨折","anchor":"femoral-neck-fracture"}]},
+        {"id":"msk-spine-joint-trauma","title":"脊柱与关节创伤","path":"09_骨骼与肌肉系统/02_脊柱与关节创伤.md","diseases":[{"title":"脊柱骨折","anchor":"spine-fracture"},{"title":"椎间盘突出","anchor":"disc-herniation"},{"title":"半月板撕裂","anchor":"meniscus-tear"}]},
+        {"id":"msk-bone-infection","title":"骨感染","path":"09_骨骼与肌肉系统/03_骨感染.md","diseases":[{"title":"急性化脓性骨髓炎","anchor":"acute-osteomyelitis"},{"title":"慢性化脓性骨髓炎","anchor":"chronic-osteomyelitis"},{"title":"骨结核","anchor":"bone-tuberculosis"}]},
+        {"id":"msk-joint-infection","title":"关节感染","path":"09_骨骼与肌肉系统/04_关节感染.md","diseases":[{"title":"化脓性关节炎","anchor":"septic-arthritis"},{"title":"关节结核","anchor":"joint-tuberculosis"}]},
+        {"id":"msk-benign-bone-tumors","title":"良性与交界性骨肿瘤","path":"09_骨骼与肌肉系统/05_良性与交界性骨肿瘤.md","diseases":[{"title":"骨软骨瘤","anchor":"osteochondroma"},{"title":"骨巨细胞瘤","anchor":"giant-cell-tumor"}]},
+        {"id":"msk-malignant-bone-tumors","title":"恶性骨肿瘤","path":"09_骨骼与肌肉系统/06_恶性骨肿瘤.md","diseases":[{"title":"骨肉瘤","anchor":"osteosarcoma"},{"title":"转移性骨肿瘤","anchor":"metastatic-bone-tumor"}]},
+        {"id":"msk-chronic-joint-disease","title":"慢性关节疾病","path":"09_骨骼与肌肉系统/07_慢性关节疾病.md","diseases":[{"title":"退行性骨关节病","anchor":"osteoarthritis"},{"title":"类风湿关节炎","anchor":"rheumatoid-arthritis"},{"title":"强直性脊柱炎","anchor":"ankylosing-spondylitis"}]},
+        {"id":"msk-soft-tissue-tumors","title":"软组织肿瘤及瘤样病变","path":"09_骨骼与肌肉系统/08_软组织肿瘤与瘤样病变.md","diseases":[{"title":"骨化性肌炎","anchor":"myositis-ossificans"},{"title":"脂肪瘤与脂肪肉瘤","anchor":"lipoma-liposarcoma"},{"title":"软组织血管瘤","anchor":"soft-tissue-hemangioma"},{"title":"神经源性肿瘤","anchor":"neurogenic-tumor"},{"title":"滑膜肉瘤","anchor":"synovial-sarcoma"}]}
+      ]
+    },
+    {
+      "id": "chapter-10",
+      "number": 10,
+      "title": "介入放射学",
+      "index": "10_介入放射学/README.md",
+      "pages": [
+        {"id":"ir-aortic-intervention","title":"主动脉疾病介入治疗","path":"10_介入放射学/01_主动脉疾病介入治疗.md","diseases":[{"title":"主动脉夹层TEVAR","anchor":"aortic-dissection-intervention"},{"title":"腹主动脉瘤EVAR","anchor":"aaa-intervention"}]},
+        {"id":"ir-bcs-ccf","title":"布加综合征与颈动脉海绵窦瘘","path":"10_介入放射学/02_布加综合征与颈动脉海绵窦瘘.md","diseases":[{"title":"布加综合征","anchor":"budd-chiari-intervention"},{"title":"颈动脉海绵窦瘘","anchor":"ccf-intervention"}]},
+        {"id":"ir-aneurysm-stroke","title":"颅内动脉瘤与急性脑卒中","path":"10_介入放射学/03_颅内动脉瘤与脑卒中介入治疗.md","diseases":[{"title":"颅内动脉瘤","anchor":"aneurysm-intervention"},{"title":"急性缺血性脑卒中","anchor":"ais-intervention"}]},
+        {"id":"ir-hcc-intervention","title":"原发性肝癌介入治疗","path":"10_介入放射学/04_原发性肝癌介入治疗.md","diseases":[{"title":"TACE","anchor":"tace"},{"title":"肝癌消融","anchor":"rfa-hcc"}]},
+        {"id":"ir-vte-filter","title":"静脉血栓栓塞与下腔静脉滤器","path":"10_介入放射学/05_静脉血栓栓塞与下腔静脉滤器.md","diseases":[{"title":"下腔静脉滤器","anchor":"ivc-filter"},{"title":"导管溶栓","anchor":"catheter-thrombolysis"}]}
+      ]
+    },
+    {
+      "id": "chapter-11",
+      "number": 11,
+      "title": "超声专项",
+      "index": "11_超声专项/README.md",
+      "pages": [
+        {"id":"us-abdominal","title":"腹部超声","path":"11_超声专项/01_腹部超声.md","diseases":[{"title":"肝脏肿瘤超声","anchor":"us-liver-tumors"},{"title":"肝脾创伤超声","anchor":"us-liver-spleen-trauma"},{"title":"胆囊疾病超声","anchor":"us-gallbladder"}]},
+        {"id":"us-urinary-intussusception","title":"泌尿系统与肠套叠超声","path":"11_超声专项/02_泌尿系统与肠套叠超声.md","diseases":[{"title":"肾肿瘤超声","anchor":"us-renal-tumors"},{"title":"肾结石超声","anchor":"us-renal-stones"},{"title":"肠套叠超声","anchor":"us-intussusception"}]},
+        {"id":"us-thyroid-vascular","title":"甲状腺与周围血管超声","path":"11_超声专项/03_甲状腺与周围血管超声.md","diseases":[{"title":"甲状腺疾病超声","anchor":"us-thyroid"},{"title":"周围血管超声","anchor":"us-vascular"}]},
+        {"id":"us-gyn-ob","title":"妇科与产科超声","path":"11_超声专项/04_妇科与产科超声.md","diseases":[{"title":"妇科超声","anchor":"us-gynecology"},{"title":"产科超声","anchor":"us-obstetrics"}]},
+        {"id":"us-cardiac","title":"心脏超声","path":"11_超声专项/05_心脏超声.md","diseases":[{"title":"风湿性心脏病","anchor":"us-rheumatic-heart"},{"title":"冠心病与心肌梗死","anchor":"us-coronary"},{"title":"先天性心脏病","anchor":"us-congenital"}]}
+      ]
     }
   ]
 }
