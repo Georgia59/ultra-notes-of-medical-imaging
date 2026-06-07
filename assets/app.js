@@ -6,9 +6,12 @@ const state = {
   searchIndex: [],
   notes: {},
   noteSaveTimer: null,
+  favoriteDiseases: new Set(),
+  collapsedChapters: new Set(),
 };
 
 const NOTES_STORAGE_KEY = "ultra-notes-user-notes-v1";
+const FAVORITE_DISEASES_STORAGE_KEY = "ultra-notes-favorite-diseases-v1";
 
 const elements = {
   article: document.querySelector("#article"),
@@ -59,34 +62,122 @@ function parseRoute() {
   };
 }
 
+function diseaseKey(page, index) {
+  return `${page.id}:${index}`;
+}
+
+function diseaseAnchor(page, disease, index, diseaseCount) {
+  if (diseaseCount <= 1) return "";
+  return disease.anchor || `${page.id}-disease-${index + 1}`;
+}
+
+function routeForDisease(page, disease, index, diseaseCount) {
+  return routeFor(page, diseaseAnchor(page, disease, index, diseaseCount));
+}
+
+function allDiseases() {
+  return state.manifest.chapters.flatMap((chapter) =>
+    chapter.pages.flatMap((page) => {
+      const diseases = diseaseItems(page);
+      return diseases.map((disease, index) => ({
+        ...disease,
+        chapter,
+        page,
+        index,
+        key: diseaseKey(page, index),
+        route: routeForDisease(page, disease, index, diseases.length),
+      }));
+    })
+  );
+}
+
+function renderDiseaseRow(page, disease, index, diseaseCount) {
+  const key = diseaseKey(page, index);
+  const isFavorite = state.favoriteDiseases.has(key);
+  const anchor = diseaseAnchor(page, disease, index, diseaseCount);
+  return `
+    <div class="disease-nav-row">
+      <a
+        class="page-link disease-link"
+        data-page-id="${page.id}"
+        data-anchor="${anchor}"
+        href="${routeForDisease(page, disease, index, diseaseCount)}"
+      >${disease.title}</a>
+      <button
+        class="disease-favorite${isFavorite ? " active" : ""}"
+        type="button"
+        data-favorite-disease="${key}"
+        aria-label="${isFavorite ? "取消收藏" : "收藏"}${disease.title}"
+        aria-pressed="${isFavorite}"
+        title="${isFavorite ? "取消收藏" : "收藏疾病"}"
+      >${isFavorite ? "&#9733;" : "&#9734;"}</button>
+    </div>`;
+}
+
 function renderNavigation() {
-  elements.chapterNavigation.innerHTML = state.manifest.chapters
+  const favoriteDiseases = allDiseases().filter((disease) =>
+    state.favoriteDiseases.has(disease.key)
+  );
+  const favoriteNavigation = favoriteDiseases.length
+    ? `
+      <section class="favorite-diseases" aria-label="已收藏疾病">
+        <div class="favorite-diseases-title">已收藏疾病</div>
+        <div class="favorite-diseases-list">
+          ${favoriteDiseases
+            .map(
+              (disease) => `
+                <a class="favorite-disease-link" href="${disease.route}">
+                  <span aria-hidden="true">&#9733;</span>
+                  <span>${disease.title}</span>
+                </a>`
+            )
+            .join("")}
+        </div>
+      </section>`
+    : "";
+
+  const chapterNavigation = state.manifest.chapters
     .map(
       (chapter) => `
-        <section class="chapter-block" data-chapter="${chapter.number}">
-          <button class="chapter-toggle" type="button">
-            <span><span class="chapter-number">${chapter.number}</span>${chapter.title}</span>
-            <span class="chapter-arrow">⌄</span>
+        <section class="chapter-block${
+          state.collapsedChapters.has(String(chapter.number)) ? " collapsed" : ""
+        }" data-chapter="${chapter.number}">
+          <button class="chapter-toggle" type="button" aria-expanded="${
+            !state.collapsedChapters.has(String(chapter.number))
+          }">
+            <span class="chapter-label">
+              <span class="chapter-number">${chapter.number}</span>
+              <span>${chapter.title}</span>
+            </span>
+            <span class="chapter-arrow" aria-hidden="true">⌄</span>
           </button>
           <div class="chapter-pages">
             ${chapter.pages
-              .map(
-                (page) => `
-                  <a class="page-link" data-page-id="${page.id}" href="${routeFor(page)}">
-                    ${page.title}
-                  </a>`
-              )
+              .map((page) => {
+                const diseases = diseaseItems(page);
+                if (diseases.length <= 1) {
+                  const disease = diseases[0] || { title: page.title, anchor: "" };
+                  return renderDiseaseRow(page, disease, 0, 1);
+                }
+                return `
+                  <div class="disease-page-group">
+                    <a class="disease-page-title" data-page-id="${page.id}" href="${routeFor(
+                      page
+                    )}">${page.title}</a>
+                    ${diseases
+                      .map((disease, index) =>
+                        renderDiseaseRow(page, disease, index, diseases.length)
+                      )
+                      .join("")}
+                  </div>`;
+              })
               .join("")}
           </div>
         </section>`
     )
     .join("");
 
-  document.querySelectorAll(".chapter-toggle").forEach((button) => {
-    button.addEventListener("click", () => {
-      button.closest(".chapter-block").classList.toggle("collapsed");
-    });
-  });
+  elements.chapterNavigation.innerHTML = favoriteNavigation + chapterNavigation;
 }
 
 function renderDiseaseSelect() {
@@ -98,9 +189,11 @@ function renderDiseaseSelect() {
       if (diseases.length <= 1) {
         options.push(`<option value="${routeFor(page)}">${page.title}</option>`);
       } else {
-        diseases.forEach((disease) => {
+        diseases.forEach((disease, index) => {
           options.push(
-            `<option value="${routeFor(page, disease.anchor)}">${disease.title}</option>`
+            `<option value="${routeForDisease(page, disease, index, diseases.length)}">${
+              disease.title
+            }</option>`
           );
         });
       }
@@ -127,6 +220,19 @@ function slugifyHeading(text, index) {
 }
 
 function prepareRenderedHeadings() {
+  const currentDiseases = diseaseItems(state.activePage);
+  if (currentDiseases.length > 1) {
+    const diseaseHeadings = [...elements.article.querySelectorAll("h2")];
+    currentDiseases.forEach((disease, index) => {
+      const heading = diseaseHeadings.find((candidate) =>
+        candidate.textContent.includes(disease.title)
+      );
+      if (heading) {
+        heading.id = diseaseAnchor(state.activePage, disease, index, currentDiseases.length);
+      }
+    });
+  }
+
   const headings = [...elements.article.querySelectorAll("h2, h3")];
   const used = new Set();
   headings.forEach((heading, index) => {
@@ -182,6 +288,34 @@ function loadNotesFromStorage() {
   } catch {
     state.notes = {};
   }
+}
+
+function loadFavoriteDiseasesFromStorage() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(FAVORITE_DISEASES_STORAGE_KEY) || "[]");
+    state.favoriteDiseases = new Set(Array.isArray(saved) ? saved.map(String) : []);
+  } catch {
+    state.favoriteDiseases = new Set();
+  }
+}
+
+function toggleFavoriteDisease(key) {
+  if (state.favoriteDiseases.has(key)) {
+    state.favoriteDiseases.delete(key);
+  } else {
+    state.favoriteDiseases.add(key);
+  }
+
+  try {
+    localStorage.setItem(
+      FAVORITE_DISEASES_STORAGE_KEY,
+      JSON.stringify([...state.favoriteDiseases])
+    );
+  } catch {
+    // The current choice still works for this session when browser storage is unavailable.
+  }
+  renderNavigation();
+  updateActiveNavigation();
 }
 
 function formatNoteTime(timestamp) {
@@ -311,7 +445,11 @@ function clearCurrentNote() {
 
 function updateActiveNavigation() {
   document.querySelectorAll(".page-link").forEach((link) => {
-    link.classList.toggle("active", link.dataset.pageId === state.activePage?.id);
+    link.classList.toggle(
+      "active",
+      link.dataset.pageId === state.activePage?.id &&
+        (!link.dataset.anchor || link.dataset.anchor === state.activeAnchor)
+    );
   });
   const selectedRoute = routeFor(state.activePage, state.activeAnchor);
   if ([...elements.diseaseSelect.options].some((option) => option.value === selectedRoute)) {
@@ -457,7 +595,29 @@ function setupInteractions() {
     closeMobileMenu();
   });
   elements.chapterNavigation.addEventListener("click", (event) => {
-    if (event.target.closest(".page-link")) closeMobileMenu();
+    const favoriteButton = event.target.closest(".disease-favorite");
+    if (favoriteButton) {
+      toggleFavoriteDisease(favoriteButton.dataset.favoriteDisease);
+      return;
+    }
+
+    const chapterToggle = event.target.closest(".chapter-toggle");
+    if (chapterToggle) {
+      const chapter = chapterToggle.closest(".chapter-block");
+      const chapterNumber = String(chapter.dataset.chapter);
+      const collapsed = chapter.classList.toggle("collapsed");
+      chapterToggle.setAttribute("aria-expanded", String(!collapsed));
+      if (collapsed) {
+        state.collapsedChapters.add(chapterNumber);
+      } else {
+        state.collapsedChapters.delete(chapterNumber);
+      }
+      return;
+    }
+
+    if (event.target.closest(".page-link, .disease-page-title, .favorite-disease-link")) {
+      closeMobileMenu();
+    }
   });
   document.addEventListener("keydown", (event) => {
     if (event.key === "/" && document.activeElement !== elements.globalSearch) {
@@ -497,6 +657,7 @@ async function handleRoute() {
 async function initialize() {
   try {
     loadNotesFromStorage();
+    loadFavoriteDiseasesFromStorage();
     const response = await fetch("content/manifest.json");
     state.manifest = await response.json();
     state.pages = flattenPages(state.manifest);

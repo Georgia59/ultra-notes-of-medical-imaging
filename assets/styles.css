@@ -282,6 +282,47 @@ a {
   margin-top: var(--space-4);
 }
 
+.favorite-diseases {
+  margin: 0 var(--space-1) var(--space-5);
+  padding: 0 var(--space-1) var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.favorite-diseases-title {
+  margin-bottom: var(--space-2);
+  color: var(--color-text-soft);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-bold);
+  letter-spacing: var(--tracking-wide);
+}
+
+.favorite-diseases-list {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.favorite-disease-link {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2);
+  border-radius: var(--radius-sm);
+  color: var(--color-text-soft);
+  font-size: var(--text-sm);
+  line-height: var(--leading-snug);
+  text-decoration: none;
+  transition: color var(--transition), background var(--transition);
+}
+
+.favorite-disease-link > span:first-child {
+  color: var(--color-warning);
+}
+
+.favorite-disease-link:hover {
+  color: var(--color-text);
+  background: var(--color-surface-hover);
+}
+
 .chapter-toggle {
   display: flex;
   width: 100%;
@@ -302,27 +343,26 @@ a {
   background: var(--color-surface-hover);
 }
 
-.chapter-toggle span:first-child {
+.chapter-label {
   display: flex;
-  align-items: center;
+  min-width: 0;
+  align-items: baseline;
   gap: 9px;
 }
 
 .chapter-number {
-  display: grid;
-  width: 25px;
-  height: 25px;
-  place-items: center;
-  border-radius: var(--radius-sm);
-  background: var(--color-primary-soft);
+  display: inline-block;
+  min-width: 1.5ch;
   color: var(--color-primary-strong);
   font-size: var(--text-xs);
   font-weight: var(--weight-semibold);
-  transition: background var(--transition), color var(--transition);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  text-align: right;
+  transition: color var(--transition);
 }
 
 .chapter-toggle:hover .chapter-number {
-  background: var(--color-primary-ghost);
   color: var(--color-primary);
 }
 
@@ -338,6 +378,77 @@ a {
 .chapter-pages {
   display: grid;
   gap: 3px;
+}
+
+.disease-page-group {
+  display: grid;
+  gap: 2px;
+  margin-bottom: var(--space-2);
+}
+
+.disease-page-title {
+  padding: var(--space-2) 42px var(--space-1) 44px;
+  color: var(--color-text);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-snug);
+  text-decoration: none;
+}
+
+.disease-page-title:hover {
+  color: var(--color-primary);
+}
+
+.disease-nav-row {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+}
+
+.disease-nav-row .page-link {
+  min-width: 0;
+  flex: 1;
+  padding-right: var(--space-1);
+}
+
+.disease-page-group .disease-nav-row .page-link {
+  padding-left: 54px;
+}
+
+.disease-page-group .disease-nav-row .page-link:hover {
+  padding-left: 58px;
+}
+
+.disease-favorite {
+  display: grid;
+  width: 32px;
+  height: 32px;
+  flex: 0 0 32px;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  color: var(--color-text-disabled);
+  background: transparent;
+  cursor: pointer;
+  font-size: var(--text-base);
+  line-height: 1;
+  transition:
+    color var(--transition),
+    background var(--transition),
+    transform var(--duration-fast) var(--ease-standard);
+}
+
+.disease-favorite:hover {
+  color: var(--color-warning);
+  background: var(--color-warning-soft);
+}
+
+.disease-favorite:active {
+  transform: scale(0.9);
+}
+
+.disease-favorite.active {
+  color: var(--color-warning);
 }
 
 .chapter-block.collapsed .chapter-pages {
