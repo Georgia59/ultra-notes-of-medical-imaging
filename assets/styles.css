@@ -188,6 +188,25 @@ a {
   box-shadow: var(--shadow-xs);
 }
 
+.mobile-search-button {
+  width: 38px;
+  height: 38px;
+  padding: 9px;
+  border: 0;
+  border-radius: 50%;
+  color: var(--color-text-soft);
+  background: transparent;
+  cursor: pointer;
+}
+
+.mobile-search-button svg {
+  width: 100%;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+}
+
 /* ── Buttons (shared) ─────────────────────────────────────────────────────── */
 
 .theme-button,
@@ -922,6 +941,29 @@ a {
   font-size: var(--text-xs);
 }
 
+.search-result p {
+  display: -webkit-box;
+  margin: 8px 0 0;
+  overflow: hidden;
+  color: var(--color-text-soft);
+  font-size: var(--text-xs);
+  line-height: 1.6;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.search-result mark {
+  border-radius: 3px;
+  color: inherit;
+  background: color-mix(in srgb, var(--color-accent) 22%, transparent);
+}
+
+.search-loading {
+  padding: 34px;
+  color: var(--color-text-soft);
+  text-align: center;
+}
+
 .empty-search {
   padding: 34px;
   color: var(--color-text-soft);
@@ -1191,6 +1233,22 @@ body.focus-mode .reader-header {
   .brand small,
   .search-box,
   .reader-tools {
+    display: none;
+  }
+
+  body.mobile-search-open .search-box {
+    position: fixed;
+    z-index: var(--z-search);
+    top: 8px;
+    right: 58px;
+    left: 58px;
+    display: flex;
+    width: auto;
+    background: var(--color-surface);
+    box-shadow: var(--shadow-md);
+  }
+
+  body.mobile-search-open .search-box kbd {
     display: none;
   }
 

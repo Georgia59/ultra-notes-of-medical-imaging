@@ -4,6 +4,11 @@ const state = {
   activePage: null,
   activeAnchor: "",
   searchIndex: [],
+  fullTextSearchIndex: [],
+  fullTextSearchPromise: null,
+  fullTextSearchReady: false,
+  fullTextSearchFailures: 0,
+  markdownCache: new Map(),
   notes: {},
   noteSaveTimer: null,
   favoriteDiseases: new Set(),
@@ -23,6 +28,7 @@ const elements = {
   diseaseSelect: document.querySelector("#diseaseSelect"),
   globalSearch: document.querySelector("#globalSearch"),
   searchPanel: document.querySelector("#searchPanel"),
+  searchStatus: document.querySelector("#searchStatus"),
   searchResults: document.querySelector("#searchResults"),
   scrim: document.querySelector("#scrim"),
   sidebar: document.querySelector("#sidebar"),
@@ -219,27 +225,27 @@ function slugifyHeading(text, index) {
   return normalized || `section-${index}`;
 }
 
-function prepareRenderedHeadings() {
-  const currentDiseases = diseaseItems(state.activePage);
+function assignHeadingIds(container, page) {
+  const currentDiseases = diseaseItems(page);
   if (currentDiseases.length > 1) {
-    const diseaseHeadings = [...elements.article.querySelectorAll("h2")];
+    const diseaseHeadings = [...container.querySelectorAll("h2")];
     currentDiseases.forEach((disease, index) => {
       const heading = diseaseHeadings.find((candidate) =>
         candidate.textContent.includes(disease.title)
       );
       if (heading) {
-        heading.id = diseaseAnchor(state.activePage, disease, index, currentDiseases.length);
+        heading.id = diseaseAnchor(page, disease, index, currentDiseases.length);
       }
     });
   }
 
-  const headings = [...elements.article.querySelectorAll("h2, h3")];
+  const headings = [...container.querySelectorAll("h2, h3")];
   const used = new Set();
   headings.forEach((heading, index) => {
     if (!heading.id) {
       let id = slugifyHeading(heading.textContent, index);
       let suffix = 2;
-      while (used.has(id) || document.getElementById(id)) {
+      while (used.has(id)) {
         id = `${id}-${suffix++}`;
       }
       heading.id = id;
@@ -250,7 +256,7 @@ function prepareRenderedHeadings() {
 }
 
 function renderOutline() {
-  const headings = prepareRenderedHeadings();
+  const headings = assignHeadingIds(elements.article, state.activePage);
   elements.outlineNavigation.innerHTML = headings
     .map(
       (heading) =>
@@ -477,9 +483,7 @@ async function loadPage(page, anchor = "") {
     .map((item) => item.title)
     .join(" · ");
 
-  const response = await fetch(`content/${encodeURI(page.path)}`);
-  if (!response.ok) throw new Error(`无法载入 ${page.path}`);
-  const markdown = stripFrontMatter(await response.text());
+  const markdown = await fetchPageMarkdown(page);
   elements.article.innerHTML = marked.parse(markdown);
   elements.article.setAttribute("aria-busy", "false");
   renderOutline();
@@ -496,6 +500,23 @@ async function loadPage(page, anchor = "") {
   });
 }
 
+async function fetchPageMarkdown(page) {
+  if (!state.markdownCache.has(page.id)) {
+    const request = fetch(`content/${encodeURI(page.path)}`).then(async (response) => {
+      if (!response.ok) throw new Error(`无法载入 ${page.path}`);
+      return stripFrontMatter(await response.text());
+    });
+    state.markdownCache.set(page.id, request);
+  }
+
+  try {
+    return await state.markdownCache.get(page.id);
+  } catch (error) {
+    state.markdownCache.delete(page.id);
+    throw error;
+  }
+}
+
 function createSearchIndex() {
   state.searchIndex = [];
   state.pages.forEach((page) => {
@@ -505,46 +526,246 @@ function createSearchIndex() {
       subtitle: `第${page.chapter.number}章 · ${page.chapter.title}`,
       keywords: `${page.title} ${diseases.map((item) => item.title).join(" ")}`,
       route: routeFor(page),
+      kind: "title",
     });
-    diseases.forEach((disease) => {
+    diseases.forEach((disease, index) => {
       if (disease.title === page.title) return;
       state.searchIndex.push({
         title: disease.title,
         subtitle: page.title,
         keywords: `${disease.title} ${page.title}`,
-        route: routeFor(page, disease.anchor),
+        route: routeForDisease(page, disease, index, diseases.length),
+        kind: "title",
       });
     });
   });
 }
 
-function renderSearch(query) {
-  const keyword = query.trim().toLowerCase();
-  if (!keyword) {
-    closeSearch();
-    return;
+function normalizeSearchText(value) {
+  return value.toLocaleLowerCase("zh-CN").replace(/\s+/g, "");
+}
+
+function pageSearchSections(page, markdown) {
+  const container = document.createElement("article");
+  container.innerHTML = marked.parse(markdown);
+  assignHeadingIds(container, page);
+
+  const sections = [];
+  let current = {
+    title: page.title,
+    anchor: "",
+    parts: [],
+  };
+
+  [...container.children].forEach((node) => {
+    if (node.matches("h2, h3")) {
+      if (current.parts.length) sections.push(current);
+      current = {
+        title: node.textContent.trim(),
+        anchor: node.id,
+        parts: [],
+      };
+      return;
+    }
+    const text = node.textContent.replace(/\s+/g, " ").trim();
+    if (text) current.parts.push(text);
+  });
+  if (current.parts.length) sections.push(current);
+
+  return sections.map((section) => ({
+    title: section.title,
+    subtitle:
+      section.title === page.title
+        ? `第${page.chapter.number}章 · ${page.chapter.title}`
+        : `${page.title} · 第${page.chapter.number}章 ${page.chapter.title}`,
+    keywords: `${page.title} ${section.title}`,
+    content: section.parts.join(" "),
+    route: routeFor(page, section.anchor),
+    kind: "content",
+  }));
+}
+
+async function ensureFullTextSearchIndex() {
+  if (state.fullTextSearchReady) return;
+  if (!state.fullTextSearchPromise) {
+    state.fullTextSearchPromise = Promise.allSettled(
+      state.pages.map(async (page) =>
+        pageSearchSections(page, await fetchPageMarkdown(page))
+      )
+    ).then((results) => {
+      state.fullTextSearchIndex = results.flatMap((result) =>
+        result.status === "fulfilled" ? result.value : []
+      );
+      state.fullTextSearchFailures = results.filter(
+        (result) => result.status === "rejected"
+      ).length;
+      state.fullTextSearchReady = true;
+    });
   }
-  const results = state.searchIndex
-    .filter((item) => item.keywords.toLowerCase().includes(keyword))
-    .slice(0, 18);
+  return state.fullTextSearchPromise;
+}
+
+function scoreSearchResult(item, keyword) {
+  const title = normalizeSearchText(item.title);
+  const keywords = normalizeSearchText(item.keywords);
+  const content = normalizeSearchText(item.content || "");
+  let score = 0;
+
+  if (title === keyword) score += 1200;
+  else if (title.startsWith(keyword)) score += 900;
+  else if (title.includes(keyword)) score += 700;
+  if (keywords.includes(keyword)) score += 300;
+  if (content.includes(keyword)) {
+    score += 120;
+    score += Math.max(0, 50 - content.indexOf(keyword) / 40);
+  }
+  if (item.kind === "title") score += 40;
+  return score;
+}
+
+function searchItems(query) {
+  const keyword = normalizeSearchText(query.trim());
+  const source = state.fullTextSearchReady
+    ? [...state.searchIndex, ...state.fullTextSearchIndex]
+    : state.searchIndex;
+  const bestByRoute = new Map();
+
+  source.forEach((item) => {
+    const score = scoreSearchResult(item, keyword);
+    if (!score) return;
+    const current = bestByRoute.get(item.route);
+    if (!current || score > current.score) bestByRoute.set(item.route, { item, score });
+  });
+
+  return [...bestByRoute.values()]
+    .sort((left, right) => right.score - left.score)
+    .slice(0, 18)
+    .map((result) => result.item);
+}
+
+function escapeHtml(value) {
+  return String(value).replace(
+    /[&<>"']/g,
+    (character) =>
+      ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;",
+      })[character]
+  );
+}
+
+function highlightSearchText(text, query) {
+  const source = String(text);
+  const keyword = normalizeSearchText(query.trim());
+  if (!keyword) return escapeHtml(source);
+
+  let cursor = 0;
+  let output = "";
+  let match = findSearchMatch(source, keyword, cursor);
+
+  while (match) {
+    output += escapeHtml(source.slice(cursor, match.start));
+    output += `<mark>${escapeHtml(source.slice(match.start, match.end))}</mark>`;
+    cursor = match.end;
+    match = findSearchMatch(source, keyword, cursor);
+  }
+  return output + escapeHtml(source.slice(cursor));
+}
+
+function findSearchMatch(text, normalizedKeyword, fromIndex = 0) {
+  for (let start = fromIndex; start < text.length; start += 1) {
+    if (/\s/.test(text[start])) continue;
+    let sourceIndex = start;
+    let keywordIndex = 0;
+
+    while (sourceIndex < text.length && keywordIndex < normalizedKeyword.length) {
+      if (/\s/.test(text[sourceIndex])) {
+        sourceIndex += 1;
+        continue;
+      }
+      if (
+        text[sourceIndex].toLocaleLowerCase("zh-CN") !==
+        normalizedKeyword[keywordIndex]
+      ) {
+        break;
+      }
+      sourceIndex += 1;
+      keywordIndex += 1;
+    }
+
+    if (keywordIndex === normalizedKeyword.length) {
+      return { start, end: sourceIndex };
+    }
+  }
+  return null;
+}
+
+function searchSnippet(content, query) {
+  if (!content) return "";
+  const text = content.replace(/\s+/g, " ").trim();
+  const match = findSearchMatch(text, normalizeSearchText(query.trim()));
+  const index = match?.start || 0;
+  const start = Math.max(0, index - 42);
+  const end = Math.min(text.length, (match?.end || 0) + 68);
+  return `${start ? "…" : ""}${text.slice(start, end)}${end < text.length ? "…" : ""}`;
+}
+
+function renderSearchResults(query) {
+  const results = searchItems(query);
+  elements.searchStatus.textContent = state.fullTextSearchReady
+    ? state.fullTextSearchFailures
+      ? `搜索结果 · ${state.fullTextSearchFailures} 篇正文载入失败`
+      : "全文搜索结果"
+    : "标题结果 · 正在建立全文索引…";
   elements.searchResults.innerHTML = results.length
     ? results
-        .map(
-          (item) => `
+        .map((item) => {
+          const snippet = searchSnippet(item.content, query);
+          return `
             <a class="search-result" href="${item.route}">
-              <strong>${item.title}</strong>
-              <span>${item.subtitle}</span>
-            </a>`
-        )
+              <strong>${highlightSearchText(item.title, query)}</strong>
+              <span>${escapeHtml(item.subtitle)}</span>
+              ${
+                snippet
+                  ? `<p>${highlightSearchText(snippet, query)}</p>`
+                  : ""
+              }
+            </a>`;
+        })
         .join("")
-    : `<div class="empty-search">没有找到“${query}”</div>`;
+    : state.fullTextSearchReady
+      ? `<div class="empty-search">没有找到“${escapeHtml(query)}”</div>`
+      : `<div class="search-loading">正在读取正文，请稍候…</div>`;
   elements.searchPanel.hidden = false;
   elements.scrim.hidden = false;
 }
 
+function renderSearch(query) {
+  if (!query.trim()) {
+    closeSearch();
+    return;
+  }
+  renderSearchResults(query);
+  if (!state.fullTextSearchReady) {
+    ensureFullTextSearchIndex().then(() => {
+      if (elements.globalSearch.value === query) renderSearchResults(query);
+    });
+  }
+}
+
 function closeSearch() {
   elements.searchPanel.hidden = true;
+  document.body.classList.remove("mobile-search-open");
   if (!elements.sidebar.classList.contains("open")) elements.scrim.hidden = true;
+}
+
+function openMobileSearch() {
+  document.body.classList.add("mobile-search-open");
+  elements.globalSearch.focus();
+  if (elements.globalSearch.value) renderSearch(elements.globalSearch.value);
 }
 
 function openMobileMenu() {
@@ -578,6 +799,7 @@ function setupInteractions() {
     scrollToElementImmediately(target);
   });
   document.querySelector("#closeSearchButton").addEventListener("click", closeSearch);
+  document.querySelector("#mobileSearchButton").addEventListener("click", openMobileSearch);
   document.querySelector("#notesButton").addEventListener("click", openNotes);
   document.querySelector("#notesFab").addEventListener("click", openNotes);
   document.querySelector("#closeNotesButton").addEventListener("click", closeNotes);

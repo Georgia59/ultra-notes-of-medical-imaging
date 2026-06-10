@@ -26,11 +26,21 @@
           </span>
         </a>
         <div class="topbar-actions">
+          <button
+            class="mobile-search-button mobile-only"
+            id="mobileSearchButton"
+            type="button"
+            aria-label="打开搜索"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="m21 21-4.35-4.35m2.35-5.65a8 8 0 1 1-16 0 8 8 0 0 1 16 0Z" />
+            </svg>
+          </button>
           <label class="search-box" for="globalSearch">
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <path d="m21 21-4.35-4.35m2.35-5.65a8 8 0 1 1-16 0 8 8 0 0 1 16 0Z" />
             </svg>
-            <input id="globalSearch" type="search" placeholder="搜索疾病或章节" autocomplete="off" />
+            <input id="globalSearch" type="search" placeholder="搜索标题或正文" autocomplete="off" />
             <kbd>/</kbd>
           </label>
           <button class="theme-button" id="themeButton" type="button" aria-label="切换明暗主题">
@@ -124,7 +134,7 @@
 
     <div class="search-panel" id="searchPanel" hidden>
       <div class="search-panel-head">
-        <span>搜索结果</span>
+        <span id="searchStatus">搜索结果</span>
         <button id="closeSearchButton" aria-label="关闭搜索">×</button>
       </div>
       <div id="searchResults"></div>
