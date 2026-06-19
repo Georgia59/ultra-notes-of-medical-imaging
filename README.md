@@ -30,6 +30,10 @@ content/
 
 优先修改 `assets/theme.css` 中的 CSS 变量。布局和组件样式位于 `assets/styles.css`。
 
+## 写作规范
+
+笔记统一按“病理机制 → 成像变化 → 影像表现 → 临床/考试意义”的逻辑写作。全库升级和新增页面时参考 [`docs/note-writing-standard.md`](docs/note-writing-standard.md)。
+
 ## 个人笔记
 
 每个疾病页面拥有独立笔记，内容自动保存在当前浏览器的 `localStorage` 中，不会上传或与其他用户共享。网页支持导出当前笔记为 Markdown，以及将全部笔记备份为 JSON。
